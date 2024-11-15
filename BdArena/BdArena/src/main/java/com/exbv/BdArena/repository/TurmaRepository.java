@@ -4,11 +4,12 @@ import com.exbv.BdArena.domain.Turma;
 import java.util.List;
 
 public interface TurmaRepository {
-    List<Turma> todas ();
-    Turma id_turma(int id_turma);
-    List<Turma> modalidade(String modalidade);
-    List<Turma> dia_turma (String dia);
-    int cadastrar(Turma turma);
-    int excluir(int id_turma);
-    int atualizar(Turma turma);
+    List<Turma> listar_todas ();
+    Turma busca_por_id(int id_turma);
+    List<Turma> listar_por_modalidade(String modalidade);
+    List<Turma> listar_por_dia (String dia);
+    int add_turma(Turma turma);
+    int del_turma(int id_turma);
+    int att_turma(Turma turma);
 }
+

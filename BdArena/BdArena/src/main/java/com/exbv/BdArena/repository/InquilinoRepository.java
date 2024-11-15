@@ -7,10 +7,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface InquilinoRepository {
-    List<Inquilino> cnpj ();
-    List<Inquilino> data_fim(LocalDate data_fim);
+    List<Inquilino> listar_todos();
     Inquilino inquilino_unica (String cnpj);
-    int cadastrar(Inquilino inquilino);
-    int excluir(String cpf);
-    int atualizar();
+    int add_inquilino(Inquilino inquilino);
+    int del_inquilino(String cpf);
+    int att_inquilino(Inquilino inquilino);
 }

@@ -7,10 +7,9 @@ import java.util.List;
 import java.time.LocalDate;
 
 public interface PatrocinadoresRepository {
-    List<Patrocinadores> empresas (String cnpj);
-    List<Patrocinadores> data_fim(LocalDate data_fim);
-    Patrocinadores empresa_unica (String cnpj);
-    int cadastrar(Patrocinadores patrocionadores);
-    int excluir(String cnpj);
-    int atualizar(Patrocinadores patrocionadores);
+    List<Patrocinadores> listar_todos (String cnpj);
+    Patrocinadores patrocinador_unico ();
+    int add_patrocinadores(Patrocinadores patrocionadores);
+    int del_patrocinadores(String cnpj);
+    int att_patrocinadores(Patrocinadores patrocionadores);
 }

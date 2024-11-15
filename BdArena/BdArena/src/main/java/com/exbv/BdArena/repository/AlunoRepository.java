@@ -10,5 +10,4 @@ public interface AlunoRepository {
     List<Aluno> todos_alunos();
     int cadastrar(Aluno aluno);
     int excluir(int matricula);
-    int atualizar(Aluno aluno);
 }

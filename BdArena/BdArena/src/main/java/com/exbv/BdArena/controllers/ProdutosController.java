@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController
@@ -15,11 +14,11 @@ import java.util.List;
 public class ProdutosController {
 
     @Autowired
-    private ProdutosRepository repository;
+    private ProdutosRepository produtosRepository;
 
     @GetMapping
-    public ResponseEntity<List<Produtos>> getAllProdutos(){
-        List<Produtos> todosProdutos = repository.todos_produtos();
+    public ResponseEntity<List<Produtos>> getAllProdutos() {
+        List<Produtos> todosProdutos = produtosRepository.findAll();
         return ResponseEntity.ok(todosProdutos);
     }
 }
