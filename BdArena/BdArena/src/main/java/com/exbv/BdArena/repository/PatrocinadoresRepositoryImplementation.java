@@ -1,10 +1,10 @@
 package com.exbv.BdArena.repository;
 
-import com.exbv.BdArena.domain.Patrocina;
+
 import com.exbv.BdArena.domain.Patrocinadores;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.time.LocalDate;
+
 import java.util.List;
 
 @Repository

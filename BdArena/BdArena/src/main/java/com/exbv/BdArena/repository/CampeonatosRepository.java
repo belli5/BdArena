@@ -9,6 +9,6 @@ public interface CampeonatosRepository {
     List<Campeonatos> categoria ();
     List<Campeonatos> genero ();
     int add_campeonato(Campeonatos campeonatos);
-    int excluir_campeonat(int id_campeonato);
+    int excluir_campeonato(int id_campeonato);
     int alterar_camp(Campeonatos campeonatos);
 }

@@ -9,11 +9,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 @Repository
-public class ProdutosImpl implements ProdutosRepository {
+public class ProdutosRepositoryImp implements ProdutosRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ProdutosImpl(JdbcTemplate jdbcTemplate) {
+    public ProdutosRepositoryImp(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -32,12 +32,12 @@ public class ProdutosImpl implements ProdutosRepository {
 
     @Override
     public List<Produtos> findAll() {
-        String sql = "select * from Produtos where ststus = 'Ativo'";
+        String sql = "select * from Produtos";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Produtos produto = new Produtos();
             produto.setId_produto(rs.getInt("id"));
             produto.setNome(rs.getString("nome"));
-            produto.setPreco(rs.getFloat("preço"));
+            produto.setPreco(rs.getFloat("preco"));
             produto.setTipo(rs.getString("tipo"));
             return produto;
         });
@@ -45,7 +45,7 @@ public class ProdutosImpl implements ProdutosRepository {
 
     @Override
     public void Adicionar(Produtos produtos) {
-        jdbcTemplate.update("ADICIONAR Produtos SET nome = ?, tipo = ?, preco = ? where id_produto = ?",
+        jdbcTemplate.update("INSERT TO Produtos (nome, preco, tipo, id_produto) VALUE (?, ?, ?, ?)",
                 produtos.getNome(), produtos.getPreco(), produtos.getTipo(), produtos.getId_produto());
     }
 

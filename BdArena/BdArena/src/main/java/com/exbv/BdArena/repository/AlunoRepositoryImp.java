@@ -3,17 +3,16 @@ package com.exbv.BdArena.repository;
 
 import com.exbv.BdArena.domain.Aluno;
 import org.springframework.stereotype.Repository;
-import com.exbv.BdArena.domain.Produtos;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
 import java.util.List;
 
 @Repository
-public class AlunoImpl implements AlunoRepository{
+public class AlunoRepositoryImp implements AlunoRepository{
 
     private final JdbcTemplate jdbcTemplate;
-    public AlunoImpl(JdbcTemplate jdbcTemplate) {
+    public AlunoRepositoryImp(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,7 +29,7 @@ public class AlunoImpl implements AlunoRepository{
 
     @Override
     public List<Aluno> todos_alunos(){
-        return jdbcTemplate.query("select * from Aluno where status= 'Ativo'", (rs, rowNum) -> {
+        return jdbcTemplate.query("SELECT * FROM Aluno", (rs, rowNum) -> {
             Aluno aluno = new Aluno();
             aluno.setCpf_aluno(rs.getString("cpf"));
             aluno.setMatricula(rs.getInt("matricula"));

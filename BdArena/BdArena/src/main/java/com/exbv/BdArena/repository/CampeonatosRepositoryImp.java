@@ -1,22 +1,21 @@
 package com.exbv.BdArena.repository;
 
 import com.exbv.BdArena.domain.Campeonatos;
-import com.exbv.BdArena.domain.aula_Aluno_Turma_Professor;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 @Repository
-public class CampeonatosImpl implements CampeonatosRepository{
+public class CampeonatosRepositoryImp implements CampeonatosRepository{
 
     private final JdbcTemplate jdbcTemplate;
-    public CampeonatosImpl (JdbcTemplate jdbcTemplate) {
+    public CampeonatosRepositoryImp(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Campeonatos achar_camp (int id_campeonato){
-        String sql = "SELECT * FROM Campeonatos where id_campeonato";
+        String sql = "SELECT * FROM Campeonatos where id_campeonato = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id_campeonato}, (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
             campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
@@ -63,11 +62,31 @@ public class CampeonatosImpl implements CampeonatosRepository{
 
     @Override
     public int add_campeonato(Campeonatos campeonatos){
-        return jdbcTemplate.update("INSERT INTO Campeonatos (id_campeonato, categoria, modalidade, genero, premio, vencedor, data_realizacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                Campeonatos.getId_campeonato(),
-                Campeonatos.
-                Campeonatos.
-                Campeonatos.
-                Campeonatos.
+        return jdbcTemplate.update("INSERT INTO Campeonatos (id_campeonato, categoria, modalidade, genero, premiacao, vencedor, data_realizacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                campeonatos.getId_campeonato(),
+                campeonatos.getCategoria(),
+                campeonatos.getModalidade(),
+                campeonatos.getGenero(),
+                java.sql.Date.valueOf(campeonatos.getData_realizacao()),
+                campeonatos.getPremiacao(),
+                campeonatos.getVencedor()
+        );
+    }
+
+    @Override
+    public int excluir_campeonato(int id_campeonato) {
+        return jdbcTemplate.update("DELETE FROM Campeonatos WHERE id_campeonato = ?", id_campeonato);
+    }
+
+    @Override
+    public int alterar_camp(Campeonatos campeonatos){
+        return jdbcTemplate.update("UPDATE Campeonatos SET categoria = ?, modalidade = ?, genero = ?, premiacao = ?, vencedor = ?, data_realizacao = ? WHERE id_campeonato = ?",
+                campeonatos.getId_campeonato(),
+                campeonatos.getCategoria(),
+                campeonatos.getModalidade(),
+                campeonatos.getGenero(),
+                java.sql.Date.valueOf(campeonatos.getData_realizacao()),
+                campeonatos.getPremiacao(),
+                campeonatos.getVencedor());
     }
 }

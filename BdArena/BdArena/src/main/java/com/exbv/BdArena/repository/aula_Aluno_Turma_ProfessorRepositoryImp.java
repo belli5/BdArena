@@ -8,10 +8,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.util.List;
 
 @Repository
-public class aula_Aluno_Turma_ProfessorImpl implements aula_Aluno_Turma_ProfessorRepository{
+public class aula_Aluno_Turma_ProfessorRepositoryImp implements aula_Aluno_Turma_ProfessorRepository{
 
     private final JdbcTemplate jdbcTemplate;
-    public aula_Aluno_Turma_ProfessorImpl (JdbcTemplate jdbcTemplate) {
+    public aula_Aluno_Turma_ProfessorRepositoryImp(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -85,14 +85,13 @@ public class aula_Aluno_Turma_ProfessorImpl implements aula_Aluno_Turma_Professo
 
     @Override
     public int excluir(int aluno_matricula, int codigo_professor, int id_turma){
-        String sql = "DELETE FROM aula_Aluno_Turma_Professor WHERE aluno_matricula = ?, codigo_professor = ?, id_turma = ?";
-        return jdbcTemplate.update(sql, aluno_matricula, codigo_professor, id_turma);
+        return jdbcTemplate.update("DELETE FROM aula_Aluno_Turma_Professor WHERE aluno_matricula = ?, codigo_professor = ?, id_turma = ?",
+                aluno_matricula, codigo_professor, id_turma);
     }
 
     @Override
     public int atualizar(aula_Aluno_Turma_Professor aula_Aluno_Turma_Professor){
-        String sql = "UPDATE aula_Aluno_Turma_Professor SET codigo_professor = ?, cpf_aluno = ?, cpf_professor = ? WHERE aluno_matricula = ? AND id_turma = ?";
-        return jdbcTemplate.update(sql,
+        return jdbcTemplate.update("UPDATE aula_Aluno_Turma_Professor SET codigo_professor = ?, cpf_aluno = ?, cpf_professor = ? WHERE aluno_matricula = ? AND id_turma = ?",
                 aula_Aluno_Turma_Professor.getProfessor_codigo(),
                 aula_Aluno_Turma_Professor.getAluno_cpf(),
                 aula_Aluno_Turma_Professor.getProfessor_cpf(),

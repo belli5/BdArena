@@ -7,7 +7,7 @@ import com.exbv.BdArena.domain.Pessoa;
 import java.util.List;
 
 public interface FuncionarioRepository {
-        Funcionario id (int code_funcionario);
+        Funcionario id_funcionario (int code_funcionario);
         List<Funcionario> funcao(String funcao_funcionario);
         List<Funcionario> todos_funcionarios();
         int cadastrar(Funcionario funcionario);

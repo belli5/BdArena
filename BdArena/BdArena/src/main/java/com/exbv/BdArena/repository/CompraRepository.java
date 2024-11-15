@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface CompraRepository {
-    Compra produto_comprado (int id_produto, int pessoa_cpf, LocalDate data);
     List<Compra> tudo();
     List<Compra> por_pessoa(String pessoa_cpf);
     List<Compra> por_produto (int id_produto);
