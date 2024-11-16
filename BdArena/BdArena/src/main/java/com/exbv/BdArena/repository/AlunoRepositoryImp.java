@@ -18,8 +18,7 @@ public class AlunoRepositoryImp implements AlunoRepository{
 
     @Override
     public Aluno matricula(int matricula){
-        String sql = "SELECT * FROM Cliente WHERE matricula = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{matricula}, (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject("SELECT * FROM Cliente WHERE matricula = ?", new Object[]{matricula}, (rs, rowNum) -> {
             Aluno aluno = new Aluno();
             aluno.setMatricula(rs.getInt("matricula"));
             aluno.setCpf_aluno(rs.getString("cpf"));
@@ -31,7 +30,7 @@ public class AlunoRepositoryImp implements AlunoRepository{
     public List<Aluno> todos_alunos(){
         return jdbcTemplate.query("SELECT * FROM Aluno", (rs, rowNum) -> {
             Aluno aluno = new Aluno();
-            aluno.setCpf_aluno(rs.getString("cpf"));
+            aluno.setCpf_aluno(rs.getString("cpf_aluno"));
             aluno.setMatricula(rs.getInt("matricula"));
             return aluno;
         });

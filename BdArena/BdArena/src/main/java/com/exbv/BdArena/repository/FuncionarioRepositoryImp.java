@@ -35,8 +35,7 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
 
     @Override
     public List<Funcionario> todos_funcionarios(){
-        String sql = "SELECT * FROM Funcionario";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query("SELECT * FROM Funcionario", (rs, rowNum) -> {
             Funcionario funcionario = new Funcionario();
             funcionario.setCod_funcionario(rs.getInt("cod_funcionario"));
             funcionario.setCpf_funcionario(rs.getString("cpf_funcionario"));

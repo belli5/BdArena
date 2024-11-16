@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class aula_Aluno_Turma_Professor {
+public class Aula_Aluno_Turma_Professor {
     private int aluno_matricula;
     private String aluno_cpf;
     private int id_turma;

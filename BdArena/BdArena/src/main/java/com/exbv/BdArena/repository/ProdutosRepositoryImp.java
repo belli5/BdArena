@@ -32,10 +32,9 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public List<Produtos> findAll() {
-        String sql = "select * from Produtos";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query("select * from Produtos", (rs, rowNum) -> {
             Produtos produto = new Produtos();
-            produto.setId_produto(rs.getInt("id"));
+            produto.setId_produto(rs.getInt("id_produto"));
             produto.setNome(rs.getString("nome"));
             produto.setPreco(rs.getFloat("preco"));
             produto.setTipo(rs.getString("tipo"));

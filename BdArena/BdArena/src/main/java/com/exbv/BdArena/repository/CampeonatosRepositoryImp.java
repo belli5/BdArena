@@ -26,14 +26,13 @@ public class CampeonatosRepositoryImp implements CampeonatosRepository{
 
     @Override
     public List<Campeonatos> tudos_camp() {
-        String sql = "SELECT * FROM Campeonatos";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query("SELECT * FROM Campeonatos", (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
             campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
             campeonatos.setCategoria(rs.getString("categoria"));
             campeonatos.setModalidade(rs.getString("modalidade"));
             campeonatos.setGenero(rs.getString("genero"));
-            campeonatos.setPremiacao(rs.getString("premio"));
+            campeonatos.setPremiacao(rs.getString("premiacao"));
             campeonatos.setVencedor(rs.getString("vencedor"));
             campeonatos.setData_realizacao(rs.getDate("data_realizacao").toLocalDate());
             return campeonatos;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InquilinoRepositoryImplementation implements InquilinoRepository{
+
     private final JdbcTemplate jdbcTemplate;
     public InquilinoRepositoryImplementation(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
 

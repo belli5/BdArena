@@ -12,5 +12,4 @@ public interface CompraRepository {
     List<Compra> data (LocalDate data);
     int cadastrar(Compra compra);
     int excluir(int id_produto, int pessoa_cpf, LocalDate data);
-    int atualizar(Compra compra);
 }
