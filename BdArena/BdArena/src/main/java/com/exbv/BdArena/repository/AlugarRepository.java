@@ -3,6 +3,7 @@ package com.exbv.BdArena.repository;
 import com.exbv.BdArena.domain.Alugar;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface AlugarRepository {
@@ -10,7 +11,7 @@ public interface AlugarRepository {
     List<Alugar> tudo();
     List<Alugar> numero(int numero_quadra);
     List<Alugar> pessoa(String pessoa_cpf);
-    List<Alugar> data(LocalDate data);
+    List<Alugar> data(LocalDate data, LocalTime horario);
     int cadastrar(Alugar alugar);
     int excluir(int numero_quadra, String pessoa_cpf);
     int atualizar(Alugar alugar);

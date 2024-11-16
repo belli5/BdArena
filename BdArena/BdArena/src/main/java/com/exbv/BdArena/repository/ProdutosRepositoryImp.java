@@ -19,8 +19,7 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public Produtos Achar_Id(int id_produto) {
-        String sql = "select * from Produtos where id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id_produto}, (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject("select * from Produtos where id = ?", new Object[]{id_produto}, (rs, rowNum) -> {
             Produtos produto = new Produtos();
             produto.setId_produto(rs.getInt("id"));
             produto.setNome(rs.getString("nome"));
