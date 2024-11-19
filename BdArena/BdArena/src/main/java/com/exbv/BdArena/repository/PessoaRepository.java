@@ -9,6 +9,6 @@ public interface PessoaRepository {
     List<Pessoa> listar_ordem_alfabetica();
     int add_pessoa(Pessoa pesssoa);
     int del_pessoa(String cpf);
-    int att_pessoa(Pessoa pesssoa);
+    int att_pessoa(String cpf, Pessoa pesssoa);
 
 }

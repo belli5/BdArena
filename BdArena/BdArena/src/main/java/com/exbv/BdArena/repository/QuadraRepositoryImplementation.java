@@ -14,8 +14,7 @@ public class QuadraRepositoryImplementation implements QuadraRepository{
     @Override
     public int add_quadra(Quadra quadra){
         return jdbcTemplate.update(
-                "INSERT INTO Quadra (numero_quadra, modalidade_1, modalidade_2, modalidade_3) VALUES (?, ?, ?, ?)",
-                quadra.getNumero_quadra(),
+                "INSERT INTO Quadra (modalidade_1, modalidade_2, modalidade_3) VALUES (?, ?, ?)",
                 quadra.getModalidade_1(),
                 quadra.getModalidade_2(),
                 quadra.getModalidade_3()
@@ -31,13 +30,13 @@ public class QuadraRepositoryImplementation implements QuadraRepository{
     }
 
     @Override
-    public int att_quadra(Quadra quadra){
+    public int att_quadra(int numero_quadra, Quadra quadra){
         return jdbcTemplate.update(
                 "UPDATE Quadra SET modalidade_1 = ?, modalidade_2 = ?, modalidade_3 = ? WHERE numero_quadra = ?",
                 quadra.getModalidade_1(),
                 quadra.getModalidade_2(),
                 quadra.getModalidade_3(),
-                quadra.getNumero_quadra()
+                numero_quadra
         );
     }
 

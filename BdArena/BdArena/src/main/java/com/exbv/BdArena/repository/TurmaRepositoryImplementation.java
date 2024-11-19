@@ -13,8 +13,7 @@ public class TurmaRepositoryImplementation implements TurmaRepository{
     @Override
     public int add_turma(Turma turma) {
         return jdbcTemplate.update(
-                "INSERT INTO Turma (id_turma, modalidade, horario, dias) VALUES (?, ?, ?, ?)",
-                turma.getId_turma(),
+                "INSERT INTO Turma (modalidade, horario, dias) VALUES (?, ?, ?)",
                 turma.getModalidade(),
                 turma.getHorario(),
                 turma.getDias()

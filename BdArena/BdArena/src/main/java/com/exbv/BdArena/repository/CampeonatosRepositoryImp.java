@@ -83,8 +83,7 @@ public class CampeonatosRepositoryImp implements CampeonatosRepository{
 
     @Override
     public int add_campeonato(Campeonatos campeonatos){
-        return jdbcTemplate.update("INSERT INTO Campeonatos (id_campeonato, modalidade, categoria, genero, data_realizacao, premiacao, vencedor) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                campeonatos.getId_campeonato(),
+        return jdbcTemplate.update("INSERT INTO Campeonatos (modalidade, categoria, genero, data_realizacao, premiacao, vencedor) VALUES (?, ?, ?, ?, ?, ?)",
                 campeonatos.getModalidade(),
                 campeonatos.getCategoria(),
                 campeonatos.getGenero(),

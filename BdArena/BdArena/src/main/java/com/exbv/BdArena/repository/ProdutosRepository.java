@@ -9,5 +9,5 @@ public interface ProdutosRepository {
     List<Produtos> findAll();
     void Adicionar(Produtos produtos);
     int deletar(int id_produtos);
-
+    int att_produto(int id_produto, Produtos produtos);
 }

@@ -14,5 +14,5 @@ public interface AlugarRepository {
     List<Alugar> data(LocalDate data);
     int cadastrar(Alugar alugar);
     int excluir(int numero_quadra, String pessoa_cpf, LocalDate data, LocalTime horario);
-    int atualizar(Alugar alugar);
+    int atualizar(String pessoa_cpf, Alugar alugar);
 }

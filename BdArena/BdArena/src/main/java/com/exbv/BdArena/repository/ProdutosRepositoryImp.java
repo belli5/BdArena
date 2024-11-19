@@ -19,7 +19,7 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public Produtos Achar_Id(int id_produto) {
-        return jdbcTemplate.queryForObject("select * from Produtos where id_produto = ?", (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject("SELECT * FROM Produtos WHERE id_produto = ?", (rs, rowNum) -> {
             Produtos produto = new Produtos();
             produto.setId_produto(rs.getInt("id_produto"));
             produto.setNome(rs.getString("nome"));
@@ -33,7 +33,7 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public List<Produtos> findAll() {
-        return jdbcTemplate.query("select * from Produtos", (rs, rowNum) -> {
+        return jdbcTemplate.query("SELECT * from Produtos", (rs, rowNum) -> {
             Produtos produto = new Produtos();
             produto.setId_produto(rs.getInt("id_produto"));
             produto.setNome(rs.getString("nome"));
@@ -45,14 +45,20 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public void Adicionar(Produtos produtos) {
-        jdbcTemplate.update("INSERT INTO Produtos (nome, preco, tipo, id_produto) VALUES (?, ?, ?, ?)",
-                produtos.getNome(), produtos.getPreco(), produtos.getTipo(), produtos.getId_produto());
+        jdbcTemplate.update("INSERT INTO Produtos (nome, preco, tipo) VALUES (?, ?, ?)",
+                produtos.getNome(), produtos.getPreco(), produtos.getTipo());
     }
 
     @Override
     public int deletar(int id_produto) {
         jdbcTemplate.update("DELETE FROM Estoque WHERE id_produto = ?", id_produto);
         return jdbcTemplate.update("DELETE FROM Produtos WHERE id_produto = ?", id_produto);
+    }
+
+    @Override
+    public int att_produto(int id_produto, Produtos produtos) {
+        return jdbcTemplate.update("UPDATE Produtos SET nome = ?, preco = ?, tipo = ? WHERE id_produto = ?",
+                produtos.getNome(), produtos.getPreco(), produtos.getTipo(), id_produto);
     }
 
 }

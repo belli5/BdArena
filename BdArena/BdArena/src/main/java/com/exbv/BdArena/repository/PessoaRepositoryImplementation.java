@@ -27,7 +27,7 @@ public class PessoaRepositoryImplementation implements PessoaRepository{
     }
 
     @Override
-    public int att_pessoa(Pessoa pessoa){
+    public int att_pessoa(String cpf, Pessoa pessoa){
         return jdbcTemplate.update(
                 "UPDATE Pessoa SET nome = ?, cidade = ?, bairro = ?, rua = ?, cep = ?, telefone_1 = ?, telefone_2 = ? WHERE cpf = ?",
                 pessoa.getNome(),
@@ -37,16 +37,29 @@ public class PessoaRepositoryImplementation implements PessoaRepository{
                 pessoa.getCep(),
                 pessoa.getTelefone_1(),
                 pessoa.getTelefone_2(),
-                pessoa.getCpf()
+                cpf
         );
     }
 
     @Override
-    public int del_pessoa(String cpf){
-        return jdbcTemplate.update(
-                "DELETE FROM Pessoa WHERE cpf = ?",
-                cpf
-        );
+    public int del_pessoa(String cpf) {
+        // Excluir registros relacionados aos alunos e funcionários
+        jdbcTemplate.update("DELETE FROM Aula_Aluno_Turma_Professor WHERE aluno_cpf = ?", cpf); // Netos de Pessoa via Aluno
+        jdbcTemplate.update("DELETE FROM Aula_Aluno_Turma_Professor WHERE professor_cpf IN (SELECT cpf_funcionario FROM Funcionario WHERE cpf_funcionario = ?)", cpf);
+        jdbcTemplate.update("DELETE FROM Secretaria WHERE cpf_secretaria IN (SELECT cpf_funcionario FROM Funcionario WHERE cpf_funcionario = ?)", cpf);
+        jdbcTemplate.update("DELETE FROM Administrador WHERE cpf_administrador IN (SELECT cpf_funcionario FROM Funcionario WHERE cpf_funcionario = ?)", cpf);
+        jdbcTemplate.update("DELETE FROM Professor WHERE cpf_professor IN (SELECT cpf_funcionario FROM Funcionario WHERE cpf_funcionario = ?)", cpf);
+
+
+        // Excluir dependências diretas
+        jdbcTemplate.update("DELETE FROM Aluno WHERE cpf_aluno = ?", cpf);
+        jdbcTemplate.update("DELETE FROM Funcionario WHERE cpf_funcionario = ?", cpf);
+        jdbcTemplate.update("DELETE FROM Alugar WHERE pessoa_cpf = ?", cpf);
+        jdbcTemplate.update("DELETE FROM Compra WHERE cpf_comprador = ?", cpf);
+        jdbcTemplate.update("DELETE FROM Participa WHERE cpf_participante = ?", cpf);
+
+        // Excluir a própria pessoa
+        return jdbcTemplate.update("DELETE FROM Pessoa WHERE cpf = ?", cpf);
     }
 
     @Override

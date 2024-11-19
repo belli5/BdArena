@@ -98,15 +98,15 @@ public class AlugarRepositoryImp implements AlugarRepository{
     }
 
     @Override
-    public int atualizar(Alugar alugar){
+    public int atualizar(String pessoa_cpf, Alugar alugar){
         return jdbcTemplate.update(
-                "UPDATE Alugar SET pessoa_cpf = ?, horario = ?, itens = ?, valor = ? WHERE numero_quadra = ?,  data = ?",
-                alugar.getPessoa_cpf(),
-                alugar.getHorario(),
+                "UPDATE Alugar SET numero_quadra = ?, horario = ?, itens = ?, valor = ?, data = ?WHERE pessoa_cpf = ?",
+                alugar.getNumero_quadra(),
+                java.sql.Time.valueOf(alugar.getHorario()),
                 alugar.getItens(),
                 alugar.getValor(),
-                alugar.getNumero_quadra(),
-                java.sql.Date.valueOf(alugar.getData())
+                java.sql.Date.valueOf(alugar.getData()),
+                pessoa_cpf
         );
     }
 }

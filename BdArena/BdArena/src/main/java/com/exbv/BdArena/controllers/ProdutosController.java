@@ -1,6 +1,7 @@
 package com.exbv.BdArena.controllers;
 
 import com.exbv.BdArena.domain.Aluno;
+import com.exbv.BdArena.domain.Pessoa;
 import com.exbv.BdArena.domain.Produtos;
 import com.exbv.BdArena.repository.ProdutosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,20 @@ public class ProdutosController {
         }
         // Retorna os dados do aluno como resposta
         return ResponseEntity.ok(produtos);
+    }
+
+    @PutMapping("/{id_produto}")
+    public ResponseEntity<String> att_produto(@PathVariable int id_produto, @RequestBody Produtos produtos) {
+        if (produtos == null) {
+            return ResponseEntity.badRequest().body("Produto não pode ser nulo!");
+        }
+
+        int result = produtosRepository.att_produto(id_produto, produtos);
+
+        if (result == 0) { // Verifica se nenhum registro foi atualizado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("id_produto não encontrado!");
+        }
+
+        return ResponseEntity.ok("Produto atualizado com sucesso!");
     }
 }
