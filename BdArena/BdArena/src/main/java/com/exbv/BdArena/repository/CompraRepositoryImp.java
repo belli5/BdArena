@@ -30,14 +30,17 @@ public class CompraRepositoryImp implements CompraRepository{
     }
 
     @Override
-    public List<Compra> por_pessoa(String pessoa_cpf){
-        String sql = "SELECT Cpf_comprador FROM Compra";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    public List<Compra> por_pessoa(String cpf_comprador) {
+        String sql = "SELECT * FROM Compra WHERE cpf_comprador = ?";
+        return jdbcTemplate.query(sql, new Object[]{cpf_comprador}, (rs, rowNum) -> {
             Compra compra = new Compra();
-            compra.setCpf_comprador(rs.getString("pessoa_cpf"));
+            compra.setCpf_comprador(rs.getString("cpf_comprador"));
+            compra.setId_produto(rs.getInt("id_produto"));
+            compra.setData(rs.getDate("data").toLocalDate());
             return compra;
         });
     }
+
 
     @Override
     public List<Compra> por_produto (int id_produto){

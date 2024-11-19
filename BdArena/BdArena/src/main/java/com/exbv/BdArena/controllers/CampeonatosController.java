@@ -1,6 +1,5 @@
 package com.exbv.BdArena.controllers;
 
-import com.exbv.BdArena.domain.Aluno;
 import com.exbv.BdArena.domain.Campeonatos;
 import com.exbv.BdArena.repository.CampeonatosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
