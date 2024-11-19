@@ -19,13 +19,19 @@ public class CampeonatosRepositoryImp implements CampeonatosRepository{
         return jdbcTemplate.queryForObject(sql, new Object[]{id_campeonato}, (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
             campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
+            campeonatos.setCategoria(rs.getString("categoria"));
+            campeonatos.setModalidade(rs.getString("modalidade"));
+            campeonatos.setGenero(rs.getString("genero"));
+            campeonatos.setPremiacao(rs.getString("premiacao"));
+            campeonatos.setVencedor(rs.getString("vencedor"));
+            campeonatos.setData_realizacao(rs.getDate("data_realizacao").toLocalDate());
             return campeonatos;
         });
     }
 
 
     @Override
-    public List<Campeonatos> tudos_camp() {
+    public List<Campeonatos> todos_camp() {
         return jdbcTemplate.query("SELECT * FROM Campeonatos", (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
             campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
@@ -40,31 +46,47 @@ public class CampeonatosRepositoryImp implements CampeonatosRepository{
     }
 
     @Override
-    public List<Campeonatos> categoria (){
-        String sql = "SELECT categoria FROM Campeonatos";
+    public List<Campeonatos> categoria (String categoria){
+        String sql = "SELECT * FROM Campeonatos WHERE categoria = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
+            campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
             campeonatos.setCategoria(rs.getString("categoria"));
+            campeonatos.setModalidade(rs.getString("modalidade"));
+            campeonatos.setGenero(rs.getString("genero"));
+            campeonatos.setPremiacao(rs.getString("premiacao"));
+            campeonatos.setVencedor(rs.getString("vencedor"));
+            campeonatos.setData_realizacao(rs.getDate("data_realizacao").toLocalDate());
             return campeonatos;
-        });
+        },
+        categoria
+        );
     }
 
     @Override
-    public List<Campeonatos> genero (){
-        String sql = "SELECT genero FROM Campeonatos";
+    public List<Campeonatos> genero (String genero){
+        String sql = "SELECT * FROM Campeonatos WHERE genero= ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Campeonatos campeonatos = new Campeonatos();
+            campeonatos.setId_campeonato(rs.getInt("id_campeonato"));
+            campeonatos.setCategoria(rs.getString("categoria"));
+            campeonatos.setModalidade(rs.getString("modalidade"));
             campeonatos.setGenero(rs.getString("genero"));
+            campeonatos.setPremiacao(rs.getString("premiacao"));
+            campeonatos.setVencedor(rs.getString("vencedor"));
+            campeonatos.setData_realizacao(rs.getDate("data_realizacao").toLocalDate());
             return campeonatos;
-        });
+        },
+        genero
+        );
     }
 
     @Override
     public int add_campeonato(Campeonatos campeonatos){
-        return jdbcTemplate.update("INSERT INTO Campeonatos (id_campeonato, categoria, modalidade, genero, premiacao, vencedor, data_realizacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO Campeonatos (id_campeonato, modalidade, categoria, genero, data_realizacao, premiacao, vencedor) VALUES (?, ?, ?, ?, ?, ?, ?)",
                 campeonatos.getId_campeonato(),
-                campeonatos.getCategoria(),
                 campeonatos.getModalidade(),
+                campeonatos.getCategoria(),
                 campeonatos.getGenero(),
                 java.sql.Date.valueOf(campeonatos.getData_realizacao()),
                 campeonatos.getPremiacao(),

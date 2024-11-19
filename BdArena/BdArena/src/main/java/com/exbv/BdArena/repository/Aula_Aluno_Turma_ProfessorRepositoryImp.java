@@ -74,7 +74,7 @@ public class Aula_Aluno_Turma_ProfessorRepositoryImp implements Aula_Aluno_Turma
 
     @Override
     public int cadastrar(Aula_Aluno_Turma_Professor aula_Aluno_Turma_Professor){
-        return jdbcTemplate.update("INSERT INTO aula_Aluno_Turma_Professor (aluno_matricula, codigo_professor, id_turma, cpf_aluno, cpf_professor) VALUES (?, ?, ?, ?, ?)",
+        return jdbcTemplate.update("INSERT INTO aula_Aluno_Turma_Professor (aluno_matricula, professor_codigo, id_turma, aluno_cpf, professor_cpf) VALUES (?, ?, ?, ?, ?)",
                 aula_Aluno_Turma_Professor.getAluno_matricula(),
                 aula_Aluno_Turma_Professor.getProfessor_codigo(),
                 aula_Aluno_Turma_Professor.getId_turma(),

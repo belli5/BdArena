@@ -17,13 +17,19 @@ public class AlugarRepositoryImp implements AlugarRepository{
     }
 
     @Override
-    public Alugar alugar_1 (int numero_quadra, String pessoa_cpf){
-        return jdbcTemplate.queryForObject("SELECT * FROM Alugar WHERE numero_quadra = ? and pessoa_cpf= ?", new Object[]{numero_quadra, pessoa_cpf}, (rs, rowNum) -> {
-            Alugar alugar = new Alugar();
-            alugar.setNumero_quadra(rs.getInt("numero_quadra"));
-            alugar.setPessoa_cpf(rs.getString("pessoa_cpf"));
-            return alugar;
-        });
+    public Alugar alugar_1 (int numero_quadra, String pessoa_cpf, LocalDate data){
+        return jdbcTemplate.queryForObject("SELECT * FROM Alugar WHERE numero_quadra = ? and pessoa_cpf= ? and data = ?", (rs, rowNum) -> {
+                    Alugar alugar = new Alugar();
+                    alugar.setNumero_quadra(rs.getInt("numero_quadra"));
+                    alugar.setPessoa_cpf(rs.getString("pessoa_cpf"));
+                    alugar.setData(rs.getDate("data").toLocalDate());
+                    alugar.setHorario(rs.getTime("horario").toLocalTime());
+                    alugar.setItens(rs.getString("itens"));
+                    alugar.setValor(rs.getFloat("valor"));
+                    return alugar;
+                },
+                numero_quadra, pessoa_cpf, data
+        );
     }
 
     @Override
@@ -59,8 +65,8 @@ public class AlugarRepositoryImp implements AlugarRepository{
     }
 
     @Override
-    public List<Alugar> data(LocalDate data, LocalTime horario){
-        return jdbcTemplate.query("SELECT * FROM Alugar WHERE data = ? and horario= ?", (rs, rowNum) -> {
+    public List<Alugar> data(LocalDate data){
+        return jdbcTemplate.query("SELECT * FROM Alugar WHERE data = ?", (rs, rowNum) -> {
             Alugar alugar = new Alugar();
             alugar.setData(rs.getDate("data").toLocalDate());
             alugar.setHorario(rs.getTime("horario").toLocalTime());
@@ -81,11 +87,13 @@ public class AlugarRepositoryImp implements AlugarRepository{
     }
 
     @Override
-    public int excluir(int numero_quadra, String pessoa_cpf){
+    public int excluir(int numero_quadra, String pessoa_cpf, LocalDate data, LocalTime horario){
         return  jdbcTemplate.update(
-                "DELETE FROM Alugar WHERE numero_quadra = ? and pessoa_cpf = ?",
+                "DELETE FROM Alugar WHERE numero_quadra = ? and pessoa_cpf = ? and data = ? and horario = ?",
                 numero_quadra,
-                pessoa_cpf
+                pessoa_cpf,
+                data,
+                horario
         );
     }
 

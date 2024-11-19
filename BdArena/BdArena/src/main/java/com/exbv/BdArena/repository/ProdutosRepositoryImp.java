@@ -19,14 +19,16 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public Produtos Achar_Id(int id_produto) {
-        return jdbcTemplate.queryForObject("select * from Produtos where id = ?", new Object[]{id_produto}, (rs, rowNum) -> {
+        return jdbcTemplate.queryForObject("select * from Produtos where id_produto = ?", (rs, rowNum) -> {
             Produtos produto = new Produtos();
-            produto.setId_produto(rs.getInt("id"));
+            produto.setId_produto(rs.getInt("id_produto"));
             produto.setNome(rs.getString("nome"));
-            produto.setPreco(rs.getFloat("preço"));
+            produto.setPreco(rs.getFloat("preco"));
             produto.setTipo(rs.getString("tipo"));
             return produto;
-        });
+        },
+        id_produto
+        );
     }
 
     @Override
@@ -43,23 +45,14 @@ public class ProdutosRepositoryImp implements ProdutosRepository {
 
     @Override
     public void Adicionar(Produtos produtos) {
-        jdbcTemplate.update("INSERT TO Produtos (nome, preco, tipo, id_produto) VALUE (?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO Produtos (nome, preco, tipo, id_produto) VALUES (?, ?, ?, ?)",
                 produtos.getNome(), produtos.getPreco(), produtos.getTipo(), produtos.getId_produto());
     }
 
     @Override
-    public void deletar(int id_produto) {
-        // Verificar se o produto existe no estoque
-        String checkEstoqueSql = "SELECT COUNT(*) FROM Estoque WHERE id_produto = ?";
-        Integer count = jdbcTemplate.queryForObject(checkEstoqueSql, new Object[]{id_produto}, Integer.class);
-
-        // Se o produto não estiver no estoque, prosseguir com a exclusão
-        if (count != null && count == 0) {
-            String deleteSql = "DELETE FROM Produtos WHERE id = ?";
-            jdbcTemplate.update(deleteSql, id_produto);
-            System.out.println("excluido com sucesso");
-        } else {
-            throw new IllegalStateException("O produto ainda está em estoque.");
-        }
+    public int deletar(int id_produto) {
+        jdbcTemplate.update("DELETE FROM Estoque WHERE id_produto = ?", id_produto);
+        return jdbcTemplate.update("DELETE FROM Produtos WHERE id_produto = ?", id_produto);
     }
+
 }

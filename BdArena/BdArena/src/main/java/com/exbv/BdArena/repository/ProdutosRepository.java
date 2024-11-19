@@ -8,6 +8,6 @@ public interface ProdutosRepository {
     Produtos Achar_Id(int id_produto);
     List<Produtos> findAll();
     void Adicionar(Produtos produtos);
-    void deletar(int id_produtos);
+    int deletar(int id_produtos);
 
 }
