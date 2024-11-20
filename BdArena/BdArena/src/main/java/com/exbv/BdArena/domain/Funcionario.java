@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class Funcionario {
-    private int cod_funcionario;
     private String cpf_funcionario;
     private String funcao;
     private float salario;

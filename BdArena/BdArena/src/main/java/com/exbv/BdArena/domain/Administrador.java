@@ -11,6 +11,5 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class Administrador {
-    private int codigo_administrador;
     private String cpf_administrador;
 }

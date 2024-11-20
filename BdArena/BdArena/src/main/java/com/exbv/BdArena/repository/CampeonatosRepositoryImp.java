@@ -100,13 +100,13 @@ public class CampeonatosRepositoryImp implements CampeonatosRepository{
 
     @Override
     public int alterar_camp(Campeonatos campeonatos){
-        return jdbcTemplate.update("UPDATE Campeonatos SET categoria = ?, modalidade = ?, genero = ?, premiacao = ?, vencedor = ?, data_realizacao = ? WHERE id_campeonato = ?",
-                campeonatos.getId_campeonato(),
-                campeonatos.getCategoria(),
+        return jdbcTemplate.update("UPDATE Campeonatos SET modalidade = ?, categoria = ?, genero = ?, data_realizacao = ?, premiacao = ?, vencedor = ? WHERE id_campeonato = ?",
                 campeonatos.getModalidade(),
+                campeonatos.getCategoria(),
                 campeonatos.getGenero(),
                 java.sql.Date.valueOf(campeonatos.getData_realizacao()),
                 campeonatos.getPremiacao(),
-                campeonatos.getVencedor());
+                campeonatos.getVencedor(),
+                campeonatos.getId_campeonato());
     }
 }

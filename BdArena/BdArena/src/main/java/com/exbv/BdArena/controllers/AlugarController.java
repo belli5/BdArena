@@ -1,8 +1,6 @@
 package com.exbv.BdArena.controllers;
 
 import com.exbv.BdArena.domain.Alugar;
-import com.exbv.BdArena.domain.Aluno;
-import com.exbv.BdArena.domain.Pessoa;
 import com.exbv.BdArena.repository.AlugarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,11 +54,12 @@ public class AlugarController {
         return ResponseEntity.ok("Aluguel excluído com sucesso.");
     }
 
-    @PutMapping("/{pessoa_cpf}")
+    @PutMapping("/{pessoa_cpf}/{numero_quadra}")
     public ResponseEntity<String> atualizar(@PathVariable String pessoa_cpf,
+                                            @PathVariable int numero_quadra,
                                             @RequestBody Alugar alugar) {
         // Use a variável 'data' diretamente, sem conversão
-        int result = alugarRepository.atualizar(pessoa_cpf, alugar);
+        int result = alugarRepository.atualizar(numero_quadra, pessoa_cpf, alugar);
 
         if (result == 0) { // Verifica se nenhum registro foi atualizado
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("pessoa_cpf não encontrado!");

@@ -11,5 +11,5 @@ public interface CompraRepository {
     List<Compra> por_produto (int id_produto);
     List<Compra> data (LocalDate data);
     int cadastrar(Compra compra);
-    int excluir(int id_produto, int pessoa_cpf, LocalDate data);
+    int excluir(int id_compra);
 }

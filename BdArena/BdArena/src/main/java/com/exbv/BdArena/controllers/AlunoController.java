@@ -23,16 +23,16 @@ public class AlunoController {
 
     @PostMapping
     public ResponseEntity<String> cadastrar(@RequestBody Aluno aluno) {
-        if (aluno == null || aluno.getMatricula() == 0 || aluno.getCpf_aluno() == null) {
+        if (aluno == null || aluno.getCpf_aluno() == null) {
             return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
         }
         alunoRepository.cadastrar(aluno);
         return ResponseEntity.ok("Aluno cadastrado com sucesso!");
     }
 
-    @DeleteMapping("/{matricula}")
-    public ResponseEntity<String> excluir (@PathVariable int matricula) {
-        int result = alunoRepository.excluir(matricula);
+    @DeleteMapping("/{cpf_aluno}")
+    public ResponseEntity<String> excluir (@PathVariable String cpf_aluno) {
+        int result = alunoRepository.excluir(cpf_aluno);
         // Verifica se nenhum registro foi excluído
         if (result == 0) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno não encontrado.");
@@ -41,10 +41,10 @@ public class AlunoController {
         return ResponseEntity.ok("Aluno excluído com sucesso.");
     }
 
-    @GetMapping("/{matricula}")
-    public ResponseEntity<?> buscarPorMatricula(@PathVariable int matricula) {
+    @GetMapping("/{cpf_aluno}")
+    public ResponseEntity<?> buscarPorMatricula(@PathVariable String cpf_aluno) {
         // Busca o aluno pelo repositório
-        Aluno aluno = alunoRepository.buscarPorMatricula(matricula);
+        Aluno aluno = alunoRepository.buscarPorCpf_aluno(cpf_aluno);
 
         // Verifica se o aluno foi encontrado
         if (aluno == null) {

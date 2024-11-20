@@ -11,6 +11,5 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class Aluno {
-    private int matricula;
     private String cpf_aluno;
 }

@@ -1,6 +1,5 @@
 package com.exbv.BdArena.controllers;
 
-import com.exbv.BdArena.domain.Campeonatos;
 import com.exbv.BdArena.domain.Compra;
 import com.exbv.BdArena.repository.CompraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +41,16 @@ public class CompraController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma compra encontrada para o CPF fornecido!");
         }
         return ResponseEntity.ok(compras);
+    }
+
+    @DeleteMapping("/{id_compra}")
+    public ResponseEntity<String> excluir(@PathVariable int id_compra) {
+        int result = compraRepository.excluir(id_compra);
+        // Verifica se nenhum registro foi excluído
+        if (result < 0) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("compra não encontrado.");
+        }
+        // Se a exclusão for bem-sucedida
+        return ResponseEntity.ok("compra excluído com sucesso.");
     }
 }

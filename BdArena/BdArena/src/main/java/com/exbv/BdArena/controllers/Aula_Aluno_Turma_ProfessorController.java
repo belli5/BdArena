@@ -24,9 +24,8 @@ public class Aula_Aluno_Turma_ProfessorController {
 
     @PostMapping
     public ResponseEntity<String> cadastrar(@RequestBody Aula_Aluno_Turma_Professor aula_Aluno_Turma_Professor) {
-        if (aula_Aluno_Turma_Professor == null || aula_Aluno_Turma_Professor.getAluno_matricula() < 0
-                || aula_Aluno_Turma_Professor.getProfessor_cpf() == null || aula_Aluno_Turma_Professor.getId_turma() <0
-            || aula_Aluno_Turma_Professor.getAluno_cpf() == null || aula_Aluno_Turma_Professor.getProfessor_codigo() <=0) {
+        if (aula_Aluno_Turma_Professor == null || aula_Aluno_Turma_Professor.getProfessor_cpf() == null || aula_Aluno_Turma_Professor.getId_turma() <0
+            || aula_Aluno_Turma_Professor.getAluno_cpf() == null) {
             return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
         }
         aula_Aluno_Turma_ProfessorRepository.cadastrar(aula_Aluno_Turma_Professor);

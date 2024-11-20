@@ -1,5 +1,6 @@
 package com.exbv.BdArena.repository;
 
+import com.exbv.BdArena.domain.Pessoa;
 import com.exbv.BdArena.domain.Funcionario;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,11 +15,10 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
     }
 
     @Override
-    public Funcionario id_funcionario (int code_funcionario){
-        String sql = "SELECT * FROM Funcionario where code_funcionario = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{code_funcionario}, (rs, rowNum) -> {
+    public Funcionario id_funcionario (String cpf_funcionario){
+        return jdbcTemplate.queryForObject("SELECT * FROM Funcionario where cpf_funcionario = ?", new Object[]{cpf_funcionario}, (rs, rowNum) -> {
             Funcionario funcionario = new Funcionario();
-            funcionario.setCod_funcionario(rs.getInt("code_funcionario"));
+            funcionario.setCpf_funcionario(rs.getString("cpf_funcionario"));
             return funcionario;
         });
     }
@@ -28,7 +28,7 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
         String sql = "SELECT funcao FROM Funcionario";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Funcionario funcionario = new Funcionario();
-            funcionario.setFuncao(rs.getString("funcao_funcionario"));
+            funcionario.setFuncao(rs.getString("funcao"));
             return funcionario;
         });
     }
@@ -37,7 +37,6 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
     public List<Funcionario> todos_funcionarios(){
         return jdbcTemplate.query("SELECT * FROM Funcionario", (rs, rowNum) -> {
             Funcionario funcionario = new Funcionario();
-            funcionario.setCod_funcionario(rs.getInt("cod_funcionario"));
             funcionario.setCpf_funcionario(rs.getString("cpf_funcionario"));
             funcionario.setSalario(rs.getFloat("salario"));
             funcionario.setFuncao(rs.getString("funcao"));
@@ -47,8 +46,7 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
 
     @Override
     public int cadastrar(Funcionario funcionario){
-        return jdbcTemplate.update("INSERT INTO Funcionario (cod_funcionario, cpf_funcionario, funcao, salario) VALUES (?, ?, ?, ?)",
-                funcionario.getCod_funcionario(),
+        return jdbcTemplate.update("INSERT INTO Funcionario (cpf_funcionario, funcao, salario) VALUES (?, ?, ?)",
                 funcionario.getCpf_funcionario(),
                 funcionario.getFuncao(),
                 funcionario.getSalario()
@@ -56,17 +54,50 @@ public class FuncionarioRepositoryImp implements FuncionarioRepository{
     }
 
     @Override
-    public int excluir(int code_funcionario){
-        return jdbcTemplate.update("DELETE FROM Funcionario WHERE code_funcionario = ?", code_funcionario);
+    public int excluir(String cpf_funcionario){
+        return jdbcTemplate.update("DELETE FROM Funcionario WHERE cpf_funcionario = ?", cpf_funcionario);
     }
 
     @Override
     public int atualizar(Funcionario funcionario){
-        return jdbcTemplate.update("UPDATE Funcionario SET Cpf_funcionario = ?, Funcao = ?, Salario = ? WHERE code_funcionario = ?",
-                funcionario.getCod_funcionario(),
+        return jdbcTemplate.update("UPDATE Funcionario SET Funcao = ?, Salario = ? WHERE Cpf_funcionario = ?",
                 funcionario.getCpf_funcionario(),
                 funcionario.getFuncao(),
                 funcionario.getSalario()
         );
+    }
+
+    @Override
+    public int cadastrar_pessoa_funcionario(Pessoa pessoa, String funcao, float salario) {
+        Integer cpfExiste = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM Pessoa WHERE cpf = ?",
+                new Object[]{pessoa.getCpf()},
+                Integer.class
+        );
+        int cpfCount = (cpfExiste != null) ? cpfExiste : 0;
+
+        if (cpfCount == 1) {
+            return jdbcTemplate.update("INSERT INTO Funcionario (cpf_funcionario, funcao, salario) VALUES (?, ?, ?)",
+                    pessoa.getCpf(),
+                    funcao,
+                    salario
+            );
+        } else {
+            jdbcTemplate.update("INSERT INTO Pessoa (cpf, nome, cidade, bairro, rua, cep, telefone_1, telefone_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    pessoa.getCpf(),
+                    pessoa.getNome(),
+                    pessoa.getCidade(),
+                    pessoa.getBairro(),
+                    pessoa.getRua(),
+                    pessoa.getCep(),
+                    pessoa.getTelefone_1(),
+                    pessoa.getTelefone_2()
+            );
+            return jdbcTemplate.update("INSERT INTO Funcionario (cpf_funcionario, funcao, salario) VALUES (?, ?, ?)",
+                    pessoa.getCpf(),
+                    funcao,
+                    salario
+            );
+        }
     }
 }

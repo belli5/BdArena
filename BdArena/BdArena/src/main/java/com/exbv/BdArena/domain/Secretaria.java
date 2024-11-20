@@ -11,6 +11,5 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class Secretaria {
-    private int codigo_secretaria;
     private String cpf_secretaria;
 }

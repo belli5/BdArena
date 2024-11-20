@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Setter
 
 public class Compra {
+    private int id_compra;
     private String cpf_comprador;
     private int id_produto;
     private LocalDate data;

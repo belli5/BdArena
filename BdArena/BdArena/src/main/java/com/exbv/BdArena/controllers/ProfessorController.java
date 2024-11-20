@@ -22,4 +22,6 @@ public class ProfessorController {
         List<Professor> AllProfessor = professorRepository.todos_prof();
         return ResponseEntity.ok(AllProfessor);
     }
+
+
 }

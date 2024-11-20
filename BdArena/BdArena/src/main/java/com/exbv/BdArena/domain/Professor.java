@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 
 public class Professor {
-    private int codigo_professor;
     private String cpf_professor;
     private String especialidade_1;
     private String especialidade_2;

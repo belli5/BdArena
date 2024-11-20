@@ -22,6 +22,7 @@ public class CompraRepositoryImp implements CompraRepository{
     public List<Compra> tudo(){
         return jdbcTemplate.query("SELECT * FROM Compra ", (rs, rowNum) -> {
             Compra compra = new Compra();
+            compra.setId_compra(rs.getInt("id_compra"));
             compra.setId_produto(rs.getInt("id_produto"));
             compra.setCpf_comprador(rs.getString("cpf_comprador"));
             compra.setData(rs.getDate("data").toLocalDate());
@@ -34,6 +35,7 @@ public class CompraRepositoryImp implements CompraRepository{
         String sql = "SELECT * FROM Compra WHERE cpf_comprador = ?";
         return jdbcTemplate.query(sql, new Object[]{cpf_comprador}, (rs, rowNum) -> {
             Compra compra = new Compra();
+            compra.setId_compra(rs.getInt("id_compra"));
             compra.setCpf_comprador(rs.getString("cpf_comprador"));
             compra.setId_produto(rs.getInt("id_produto"));
             compra.setData(rs.getDate("data").toLocalDate());
@@ -43,24 +45,37 @@ public class CompraRepositoryImp implements CompraRepository{
 
 
     @Override
-    public List<Compra> por_produto (int id_produto){
-        String sql = "SELECT id_produto FROM Compra";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    public List<Compra> por_produto(int id_produto) {
+        // SQL para selecionar todas as colunas de uma compra, filtrando pelo id_produto
+        String sql = "SELECT * FROM Compra WHERE id_produto = ?";
+
+        // Executa a consulta e mapeia cada linha do ResultSet para um objeto Compra
+        return jdbcTemplate.query(sql, new Object[]{id_produto}, (rs, rowNum) -> {
             Compra compra = new Compra();
+            compra.setId_compra(rs.getInt("id_compra"));
+            compra.setCpf_comprador(rs.getString("cpf_comprador"));
             compra.setId_produto(rs.getInt("id_produto"));
+            compra.setData(rs.getDate("data").toLocalDate()); // Converte SQL Date para LocalDate
             return compra;
         });
     }
 
     @Override
-    public List<Compra> data (LocalDate data){
-        String sql = "SELECT data FROM Compra";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+    public List<Compra> data(LocalDate data) {
+        // SQL para selecionar todas as colunas de uma compra, filtrando pela data
+        String sql = "SELECT * FROM Compra WHERE data = ?";
+
+        // Executa a consulta e mapeia cada linha do ResultSet para um objeto Compra
+        return jdbcTemplate.query(sql, new Object[]{java.sql.Date.valueOf(data)}, (rs, rowNum) -> {
             Compra compra = new Compra();
-            compra.setData(rs.getDate("data").toLocalDate());
+            compra.setId_compra(rs.getInt("id_compra"));
+            compra.setCpf_comprador(rs.getString("cpf_comprador"));
+            compra.setId_produto(rs.getInt("id_produto"));
+            compra.setData(rs.getDate("data").toLocalDate()); // Converte SQL Date para LocalDate
             return compra;
         });
     }
+
 
     @Override
     public int cadastrar(Compra compra){
@@ -72,12 +87,8 @@ public class CompraRepositoryImp implements CompraRepository{
     }
 
     @Override
-    public int excluir(int id_produto, int pessoa_cpf, LocalDate data){
+    public int excluir(int id_compra){
         return  jdbcTemplate.update(
-                "DELETE FROM Compra WHERE id_produto = ? and pessoa_cpf = ? and data = ?",
-                data,
-                pessoa_cpf,
-                id_produto
-        );
+                "DELETE FROM Compra WHERE id_compra = ?", id_compra);
     }
 }

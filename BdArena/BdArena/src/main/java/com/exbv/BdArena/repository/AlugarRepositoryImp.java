@@ -46,14 +46,6 @@ public class AlugarRepositoryImp implements AlugarRepository{
         });
     }
 
-    @Override
-    public List<Alugar> numero(int numero_quadra){
-        return jdbcTemplate.query("SELECT * FROM Alugar WHERE numero_quadra = ?", (rs, rowNum) -> {
-            Alugar alugar = new Alugar();
-            alugar.setNumero_quadra(rs.getInt("numero_quadra"));
-            return alugar;
-        });
-    }
 
     @Override
     public List<Alugar> pessoa(String pessoa_cpf){
@@ -98,14 +90,14 @@ public class AlugarRepositoryImp implements AlugarRepository{
     }
 
     @Override
-    public int atualizar(String pessoa_cpf, Alugar alugar){
+    public int atualizar(int numero_quadra, String pessoa_cpf, Alugar alugar){
         return jdbcTemplate.update(
-                "UPDATE Alugar SET numero_quadra = ?, horario = ?, itens = ?, valor = ?, data = ?WHERE pessoa_cpf = ?",
-                alugar.getNumero_quadra(),
+                "UPDATE Alugar SET horario = ?, itens = ?, valor = ?, data = ? WHERE numero_quadra = ? AND pessoa_cpf = ?",
                 java.sql.Time.valueOf(alugar.getHorario()),
                 alugar.getItens(),
                 alugar.getValor(),
                 java.sql.Date.valueOf(alugar.getData()),
+                numero_quadra,
                 pessoa_cpf
         );
     }
