@@ -53,19 +53,30 @@ public class AlunoRepositoryImp implements AlunoRepository{
     @Transactional
     @Override
     public int cadastrar_pessoa_aluno(Pessoa pessoa){
-        jdbcTemplate.update(
-                "INSERT INTO Pessoa (cpf, nome, cidade, bairro, rua, cep, telefone_1, telefone_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                pessoa.getCpf(),
-                pessoa.getNome(),
-                pessoa.getCidade(),
-                pessoa.getBairro(),
-                pessoa.getRua(),
-                pessoa.getCep(),
-                pessoa.getTelefone_1(),
-                pessoa.getTelefone_2()
+
+        Integer cpfExiste = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM Pessoa WHERE cpf = ?",
+                new Object[]{pessoa.getCpf()},
+                Integer.class
         );
+        int cpfCount = (cpfExiste != null) ? cpfExiste : 0;
 
-        return jdbcTemplate.update("INSERT INTO Aluno (cpf_aluno) VALUES(?)", pessoa.getCpf());
+        if(cpfCount == 1){
+            return jdbcTemplate.update("INSERT INTO Aluno (cpf_aluno) VALUES(?)", pessoa.getCpf());
+        }else{
+            jdbcTemplate.update(
+                    "INSERT INTO Pessoa (cpf, nome, cidade, bairro, rua, cep, telefone_1, telefone_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    pessoa.getCpf(),
+                    pessoa.getNome(),
+                    pessoa.getCidade(),
+                    pessoa.getBairro(),
+                    pessoa.getRua(),
+                    pessoa.getCep(),
+                    pessoa.getTelefone_1(),
+                    pessoa.getTelefone_2()
+            );
 
+            return jdbcTemplate.update("INSERT INTO Aluno (cpf_aluno) VALUES(?)", pessoa.getCpf());
+        }
     }
 }
