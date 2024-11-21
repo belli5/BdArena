@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import java.util.List;
+import com.exbv.BdArena.domain.Pessoa;
 
 @RestController
 @RequestMapping("/Aluno")
@@ -21,14 +22,14 @@ public class AlunoController {
         return ResponseEntity.ok(todosAlunos);
     }
 
-    @PostMapping
-    public ResponseEntity<String> cadastrar(@RequestBody Aluno aluno) {
-        if (aluno == null || aluno.getCpf_aluno() == null) {
-            return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
-        }
-        alunoRepository.cadastrar(aluno);
-        return ResponseEntity.ok("Aluno cadastrado com sucesso!");
-    }
+//    @PostMapping
+//    public ResponseEntity<String> cadastrar(@RequestBody Aluno aluno) {
+//        if (aluno == null || aluno.getCpf_aluno() == null) {
+//            return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
+//        }
+//        alunoRepository.cadastrar(aluno);
+//        return ResponseEntity.ok("Aluno cadastrado com sucesso!");
+//    }
 
     @DeleteMapping("/{cpf_aluno}")
     public ResponseEntity<String> excluir (@PathVariable String cpf_aluno) {
@@ -52,6 +53,16 @@ public class AlunoController {
         }
         // Retorna os dados do aluno como resposta
         return ResponseEntity.ok(aluno);
+    }
+
+    @PostMapping
+    public  ResponseEntity<String> add_aluno_pessoa(@RequestBody Pessoa pessoa){
+        if (pessoa == null || pessoa.getCpf() == null || pessoa.getNome() == null || pessoa.getRua() == null
+        || pessoa.getCidade() == null || pessoa.getCep() == null || pessoa.getTelefone_1() == null || pessoa.getBairro() == null) {
+            return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
+        }
+        alunoRepository.cadastrar_pessoa_aluno(pessoa);
+        return ResponseEntity.ok("Aluno e Pessoa cadastrados com sucesso!");
     }
 }
 

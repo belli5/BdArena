@@ -51,7 +51,12 @@ public class AlugarRepositoryImp implements AlugarRepository{
     public List<Alugar> pessoa(String pessoa_cpf){
         return jdbcTemplate.query("SELECT * FROM Alugar WHERE pessoa_cpf= ?",(rs, rowNum) -> {
             Alugar alugar = new Alugar();
+            alugar.setNumero_quadra(rs.getInt("numero_quadra"));
             alugar.setPessoa_cpf(rs.getString("pessoa_cpf"));
+            alugar.setValor(rs.getFloat("valor"));
+            alugar.setData(rs.getDate("data").toLocalDate());
+            alugar.setHorario(rs.getTime("horario").toLocalTime());
+            alugar.setItens(rs.getString("itens"));
             return alugar;
         });
     }

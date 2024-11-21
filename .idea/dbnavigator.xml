@@ -52,7 +52,7 @@
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="9.0" />
           <driver-source value="BUNDLED" />
           <driver-library value="" />
           <driver value="" />
@@ -64,7 +64,7 @@
           <tns-profile value="" />
           <type value="USER_PASSWORD" />
           <user value="root" />
-          <deprecated-pwd value="MjAwNUdoYiM=" />
+          <deprecated-pwd value="TGV0aWNpYTIyJCQ=" />
         </database>
         <properties>
           <auto-commit value="false" />

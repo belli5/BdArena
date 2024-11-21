@@ -33,10 +33,10 @@ public class configArena implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/*")  // Permitir CORS para todas as rotas
+        registry.addMapping("/**")  // Permitir CORS para todas as rotas
                 .allowedOrigins("http://localhost:4220")  // Permitir requisições do frontend
                 .allowedMethods("GET", "POST", "PUT", "DELETE")  // Métodos permitidos
-                .allowedHeaders("");  // Permitir todos os cabeçalhos
+                .allowedHeaders("*");  // Permitir todos os cabeçalhos
     }
 
 //        @Override

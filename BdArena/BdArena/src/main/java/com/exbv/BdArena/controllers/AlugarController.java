@@ -68,5 +68,20 @@ public class AlugarController {
         return ResponseEntity.ok("Aluguel atualizado com sucesso!");
     }
 
+    @GetMapping("/{pessoa_cpf}")
+    public ResponseEntity<?> buscarPorCpf(@PathVariable String pessoa_cpf) {
+        // Fetch the list of Alugar objects for the given pessoa_cpf
+        List<Alugar> alugueis = alugarRepository.pessoa(pessoa_cpf);
+
+        // If no results are found, return a 404 response
+        if (alugueis == null || alugueis.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Nenhum registro encontrado para o CPF fornecido.");
+        }
+
+        // If results are found, return them in the response
+        return ResponseEntity.ok(alugueis);
+    }
+
 
 }

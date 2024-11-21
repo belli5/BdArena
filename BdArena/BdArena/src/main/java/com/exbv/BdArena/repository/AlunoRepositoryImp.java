@@ -4,6 +4,7 @@ import com.exbv.BdArena.domain.Pessoa;
 import com.exbv.BdArena.domain.Aluno;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class AlunoRepositoryImp implements AlunoRepository{
         return jdbcTemplate.update("DELETE FROM Aluno WHERE cpf_aluno = ?", cpf_aluno);
     }
 
+    @Transactional
     @Override
     public int cadastrar_pessoa_aluno(Pessoa pessoa){
         jdbcTemplate.update(
