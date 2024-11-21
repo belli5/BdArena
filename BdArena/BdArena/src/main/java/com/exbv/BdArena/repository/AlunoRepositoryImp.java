@@ -50,20 +50,19 @@ public class AlunoRepositoryImp implements AlunoRepository{
         return jdbcTemplate.update("DELETE FROM Aluno WHERE cpf_aluno = ?", cpf_aluno);
     }
 
-    @Transactional
     @Override
-    public int cadastrar_pessoa_aluno(Pessoa pessoa){
-
+    public int cadastrarPessoaAluno(Pessoa pessoa) {
+        // Verifica se o CPF já existe na tabela Pessoa
         Integer cpfExiste = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM Pessoa WHERE cpf = ?",
                 new Object[]{pessoa.getCpf()},
                 Integer.class
         );
+
         int cpfCount = (cpfExiste != null) ? cpfExiste : 0;
 
-        if(cpfCount == 1){
-            return jdbcTemplate.update("INSERT INTO Aluno (cpf_aluno) VALUES(?)", pessoa.getCpf());
-        }else{
+        if (cpfCount == 0) {
+            // Se o CPF não existir, insere os dados na tabela Pessoa
             jdbcTemplate.update(
                     "INSERT INTO Pessoa (cpf, nome, cidade, bairro, rua, cep, telefone_1, telefone_2) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     pessoa.getCpf(),
@@ -75,8 +74,12 @@ public class AlunoRepositoryImp implements AlunoRepository{
                     pessoa.getTelefone_1(),
                     pessoa.getTelefone_2()
             );
-
-            return jdbcTemplate.update("INSERT INTO Aluno (cpf_aluno) VALUES(?)", pessoa.getCpf());
         }
+
+        // Insere o CPF na tabela Aluno
+        return jdbcTemplate.update(
+                "INSERT INTO Aluno (cpf_aluno) VALUES (?)",
+                pessoa.getCpf()
+        );
     }
 }

@@ -32,7 +32,7 @@ public class AlunoController {
 //    }
 
     @DeleteMapping("/{cpf_aluno}")
-    public ResponseEntity<String> excluir (@PathVariable String cpf_aluno) {
+    public ResponseEntity<String> excluir(@PathVariable String cpf_aluno) {
         int result = alunoRepository.excluir(cpf_aluno);
         // Verifica se nenhum registro foi excluído
         if (result == 0) {
@@ -55,14 +55,17 @@ public class AlunoController {
         return ResponseEntity.ok(aluno);
     }
 
-    @PostMapping
-    public  ResponseEntity<String> add_aluno_pessoa(@RequestBody Pessoa pessoa){
-        if (pessoa == null || pessoa.getCpf() == null || pessoa.getNome() == null || pessoa.getRua() == null
-        || pessoa.getCidade() == null || pessoa.getCep() == null || pessoa.getTelefone_1() == null || pessoa.getBairro() == null) {
-            return ResponseEntity.badRequest().body("Dados inválidos no corpo da requisição.");
+    @PostMapping("/cadastrar")
+    public ResponseEntity<String> cadastrarPessoaAluno(@RequestBody Pessoa pessoa) {
+        try {
+            int resultado = alunoRepository.cadastrarPessoaAluno(pessoa);
+            if (resultado > 0) {
+                return new ResponseEntity<>("Aluno cadastrado com sucesso!", HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>("Erro ao cadastrar aluno.", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro interno ao cadastrar aluno: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        alunoRepository.cadastrar_pessoa_aluno(pessoa);
-        return ResponseEntity.ok("Aluno e Pessoa cadastrados com sucesso!");
     }
 }
-

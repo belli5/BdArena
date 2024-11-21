@@ -10,5 +10,5 @@ public interface AlunoRepository {
     List<Aluno> todos_alunos();
     int cadastrar(Aluno aluno);
     int excluir(String cpf_aluno);
-    int cadastrar_pessoa_aluno(Pessoa pessoa);
+    int cadastrarPessoaAluno(Pessoa pessoa);
 }

@@ -15,44 +15,41 @@ public class DashboardRepositoryImplementation implements DashboardRepository{
     }
 
     @Override
-    public int reservasHoje() {
+    public ObjetoDashBoard infosDashBoard() {
+        ObjetoDashBoard objetoDashBoard = new ObjetoDashBoard();
         LocalDate dataAtual = LocalDate.now();
         String dataStr = dataAtual.toString();
-        Integer resultado = jdbcTemplate.queryForObject(
+
+        // Quantidade de Reservas Hoje
+        Integer resultadoReservasHoje = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM Alugar WHERE data = ?",
                 Integer.class,
                 dataStr);
-        return (resultado != null) ? resultado : 0;
-    }
+        objetoDashBoard.setQuantidadeDeReservas(resultadoReservasHoje != null ? resultadoReservasHoje : 0);
 
-    @Override
-    public int alunosCadastrados(){
-        Integer resultado = jdbcTemplate.queryForObject(
-                "SELECT COUNT(*) FROM Alunos",
+        // Quantidade de Alunos Cadastrados
+        Integer resultadoAlunosCadastrados = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM Aluno",
                 Integer.class);
-        return (resultado != null) ? resultado : 0;
-    }
+        objetoDashBoard.setQuantidadeDeAlunos(resultadoAlunosCadastrados != null ? resultadoAlunosCadastrados : 0);
 
-    @Override
-    public int comprasHoje(){
-        LocalDate dataAtual = LocalDate.now();
-        String dataStr = dataAtual.toString();
-        Integer resultado = jdbcTemplate.queryForObject(
+        // Quantidade de Compras Hoje
+        Integer resultadoComprasHoje = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM Compra WHERE data = ?",
                 Integer.class,
                 dataStr);
-        return (resultado != null) ? resultado : 0;
-    }
+        objetoDashBoard.setQuantidadeDeCompras(resultadoComprasHoje != null ? resultadoComprasHoje : 0);
 
-    @Override
-    public List<ObjetoStringInt> graficoCidadePessoa(){
-        return jdbcTemplate.query(
-                "SELECT cidade, COUNT(*) AS quantidade FROM Pessoa GROUP BY cidade",(rs, rowNum) ->
-                        new ObjetoStringInt(
-                                rs.getString("strinG"),
-                                rs.getInt("inT")
-                        )
+        // Gráfico de Pessoas por Cidade
+        List<ObjetoStringInt> graficoCidadePessoas = jdbcTemplate.query(
+                "SELECT cidade, COUNT(*) AS quantidade FROM Pessoa GROUP BY cidade",
+                (rs, rowNum) -> new ObjetoStringInt(
+                        rs.getString("cidade"),     // Corrigido o nome da coluna
+                        rs.getInt("quantidade")     // Corrigido o nome da coluna
+                )
         );
-    }
+        objetoDashBoard.setPessoasPorCidadeDashBoard(graficoCidadePessoas);
 
+        return objetoDashBoard;
+    }
 }
